@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract FactureNFTQuantum is ERC721, Ownable {
+    bytes32 constant RAYLS_QUANTUM_SALT = keccak256("RaylsQuantumProof2026");
+
+    mapping(uint256 => bytes32) public quantumProof;
+    mapping(uint256 => string) public invoiceData;
+
+    event QuantumMint(uint256 indexed tokenId, bytes32 quantumHash);
+
+    constructor() ERC721("FactureNFTQuantum", "FNQ") Ownable(msg.sender) {}
+
+    function mintQuantumRWA(uint256 tokenId, string memory _invoiceData) external onlyOwner {
+        bytes32 proof = keccak256(abi.encodePacked(keccak256(bytes(_invoiceData)), RAYLS_QUANTUM_SALT));
+        quantumProof[tokenId] = proof;
+        invoiceData[tokenId] = _invoiceData;
+        _safeMint(msg.sender, tokenId);
+        emit QuantumMint(tokenId, proof);
+    }
+
+    function verifyQuantum(uint256 tokenId, string memory _data) external view returns (bool) {
+        bytes32 expected = keccak256(abi.encodePacked(keccak256(bytes(_data)), RAYLS_QUANTUM_SALT));
+        return quantumProof[tokenId] == expected;
+    }
+}
