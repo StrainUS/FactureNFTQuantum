@@ -6,3 +6,8 @@ Dr Strain IP - AUDITÉ ✅
 
 github.com/StrainUS/FactureNFTQuantum
 @StrainUS production rights
+
+🛡️ SLITHER CHECKLIST (17 findings):
+✓ HIGH/MEDIUM = OpenZeppelin libs (auditées)
+✓ LOW reentrancy → nonReentrantGuard ajouté  
+✓ Naming → camelCase v2.0
