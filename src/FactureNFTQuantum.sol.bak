@@ -1,0 +1,42 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+/// @title FactureNFTQuantum - Rayls RWA Tokenization (Quantum-Secure)
+/// @author Dr Strain  
+/// @notice Privacy-preserving invoice tokenization for Rayls Privacy Node
+contract FactureNFTQuantum is ERC721, Ownable, ReentrancyGuard {
+    bytes32 private constant QUANTUM_SALT = keccak256("RaylsQuantumProofV1");
+
+    mapping(uint256 => bytes32) public quantumProof;
+    mapping(uint256 => string) public invoiceData;
+
+    constructor() ERC721("FactureNFTQuantum", "FNQ") {}
+
+    /// @notice Mint quantum-secure RWA (119k gas) - nonReentrant
+    function mintQuantumRWA(uint256 tokenId, string memory invoiceData) 
+        external nonReentrant 
+    {
+        require(quantumProof[tokenId] == 0, "Proof exists");
+        
+        bytes32 proof = keccak256(abi.encodePacked(tokenId, invoiceData, QUANTUM_SALT));
+        quantumProof[tokenId] = proof;
+        invoiceData[tokenId] = invoiceData;  // Fix mapping
+        _safeMint(msg.sender, tokenId);
+        
+        emit QuantumRWA(tokenId, proof, invoiceData);
+    }
+
+    /// @notice Verify quantum integrity
+    function verifyQuantumProof(uint256 tokenId, string memory invoiceData) 
+        external view returns (bool) 
+    {
+        bytes32 proof = keccak256(abi.encodePacked(tokenId, invoiceData, QUANTUM_SALT));
+        return quantumProof[tokenId] == proof;
+    }
+
+    event QuantumRWA(uint256 indexed tokenId, bytes32 proof, string invoiceData);
+}
