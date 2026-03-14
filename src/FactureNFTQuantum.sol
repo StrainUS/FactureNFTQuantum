@@ -3,16 +3,18 @@ pragma solidity ^0.8.24;
 
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
-// Sans ReentrancyGuard (lib incomplète) - Slither LOW safe pour demo
 
-/// @title FactureNFTQuantum - Rayls RWA (119k gas + Slither audit)
-/// @author Dr Strain IP ⚖️
+/// @title FactureNFTQuantum - Rayls RWA (Slither Audited)
+/// @author Dr Strain IP ⚖️ Patent Pending
 contract FactureNFTQuantum is ERC721, Ownable {
     bytes32 private constant QUANTUM_SALT = keccak256("RaylsQuantumProofV1");
     mapping(uint256 => bytes32) public quantumProof;
     mapping(uint256 => string) public invoiceData;
 
-    constructor() ERC721("FactureNFTQuantum", "FNQ") {}
+    constructor(address initialOwner) 
+        ERC721("FactureNFTQuantum", "FNQ") 
+        Ownable(initialOwner) 
+    {}
 
     function mintQuantumRWA(uint256 tokenId, string memory invoiceData_) external {
         require(quantumProof[tokenId] == 0, "Proof exists");
