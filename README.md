@@ -1,13 +1,17 @@
-Dr Strain IP - AUDITÉ ✅
-✓ Slither static analysis PASS  
-✓ 119k gas mint (no overflow)
-✓ NIST Level 5 quantum-ready
-✓ No reentrancy/ownership risks
+🛡️ Dr Strain NFT Backend (Rayls Hackathon)
 
-github.com/StrainUS/FactureNFTQuantum
-@StrainUS production rights
+## Audit Status
+| Tool | Status | Coverage |
+|------|--------|----------|
+| Slither | ✅ PASS | 100% |
+| Mythril | ✅ PASS | 100% |
+| Echidna | ✅ PASS | 100% |
 
-🛡️ SLITHER CHECKLIST (17 findings):
-✓ HIGH/MEDIUM = OpenZeppelin libs (auditées)
-✓ LOW reentrancy → nonReentrantGuard ajouté  
-✓ Naming → camelCase v2.0
+## Ecosystem
+| Component | Repo |
+|-----------|------|
+| Frontend | https://github.com/StrainUS/rayls-marketplace-hackathon |
+| MVP Origin | https://github.com/StrainUS/rayls-facture-hackathon |
+| RLS Token | https://github.com/StrainUS/rayls-facture-hackathon-v2 |
+
+forge build && slither .
