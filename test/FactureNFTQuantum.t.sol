@@ -1,7 +1,8 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
 import {Test, console} from "forge-std/Test.sol";
-import {FactureNFTQuantum} from "../src/Counter.sol";
+import {FactureNFTQuantum} from "../src/FactureNFTQuantum.sol";
 
 contract FactureNFTQuantumTest is Test {
     FactureNFTQuantum nft;
